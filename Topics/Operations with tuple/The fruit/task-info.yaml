@@ -1,0 +1,16 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  highlight_level: NONE
+  text: |-
+    # the tuple "fruit" is already defined
+    position = ...
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9443#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Tue, 11 Jul 2023 02:48:16 UTC"
+record: -1
+submission_language: python3

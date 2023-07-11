@@ -1,0 +1,48 @@
+<h2>Operations with tuple</h2>
+<div class="step-text">
+<p>You have already learned the tuple basics, now it’s time to examine this datatype in more detail. As you know, tuples resemble lists in many aspects, but they are immutable and can't be changed once created. So, tuples are both similar to lists and different in some respects.</p><h5 id="similarities">Similarities</h5><p>All operations on lists that do not alter the sequence itself can also be applied to tuples:</p><p><strong>1. </strong>We can <strong>add</strong> tuples to each other and <strong>multiply </strong>them by a number:</p><pre><code class="language-python">first = (1, 2, 3, 4, 5)
+the_rest = (6, 7, 8, 9)
+print(first + the_rest)  # (1, 2, 3, 4, 5, 6, 7, 8, 9)
+print(first * 2)         # (1, 2, 3, 4, 5, 1, 2, 3, 4, 5)</code></pre><p><strong>2. </strong>We can find the first <strong>index </strong>of an element in a tuple and <strong>count </strong>how many times an element occurs:</p><pre><code class="language-python">fruits = ("apple", "orange", "mango", "kiwi", "orange", "banana", "orange")
+print(fruits.index("orange"))  # 1 (remember that we iterate from 0)
+print(fruits.count("orange"))  # 3</code></pre><p>We can also specify an interval for searching:</p><pre><code class="language-python">print(fruits.index("orange", 3, 5))  # 4</code></pre><p>The first number is the index of the element to look from, the second one is the index of the element where to end the search. The last index is not included, so we've only checked the elements <code class="language-python">"kiwi"</code> and <code class="language-python">"orange"</code> with indexes 3 and 4 respectively.</p><p></p><div class="alert alert-warning"><p>Be cautious, if the value is not present in a tuple, the <code class="language-python">index()</code> method will raise <code class="language-python">ValueError</code>.</p></div><p></p><p><strong>3.</strong> Like lists, tuples can contain elements of any data type, which also implies that they can be <strong>nested </strong>in each other:</p><pre><code class="language-python">t = (1, 2, (3, 4, 5), 6)
+print(len(t))             # 4
+print(t[0] == 1)          # True
+print(t[2] == (3, 4, 5))  # True</code></pre><p><strong>4. </strong>Tuples are iterable, so we can <strong>iterate </strong>and <strong>enumerate </strong>through them:</p><pre><code class="language-python">shopping_tuple = ("chicken", "rice", "curry sauce", "carrots", "milk")
+
+for item in shopping_tuple:
+    ...
+
+for i, item in enumerate(shopping_tuple):
+    ...</code></pre><p><strong>5. </strong>Finally, we can test if an element is <strong>contained </strong>in a tuple using operators <code class="language-python">in</code> and <code class="language-python">not in</code>:</p><pre><code class="language-python">shopping_tuple = ("chicken", "rice", "curry sauce", "carrots", "milk")
+
+print("soy sauce" in shopping_tuple)  # False
+
+if "donuts" not in shopping_tuple:
+    new_shopping_tuple = shopping_tuple + ("donuts",)</code></pre><p>Everything discussed above applies to lists as well, but now it's time to learn more about the differences.</p><h5 id="differences">Differences</h5><p>It has been mentioned that tuples, as opposed to lists, can be used as <strong>dictionary keys</strong>. This is due to their immutability: only hashable objects can become dictionary keys.</p><pre><code class="language-python"># OK
+spendings = {"food": 100, "apartment": 150, "gifts": 65}
+spendings[("going out", "entertainment")] = 85
+print(spendings)  # {"food": 100, "apartment": 150, "gifts": 65, ("going out", "entertainment"): 85}
+
+# Error
+spendings[["books", "magazines"]] = 70  # TypeError: unhashable type: 'list'</code></pre><p>However, only tuples composed <strong>entirely</strong> of hashable elements can be used as keys in a dictionary.</p><pre><code class="language-python">spendings[('sports', ['sports drink', 'protein'])] = 55  # TypeError: unhashable type: 'list'</code></pre><h5 id="unpacking">Unpacking</h5><p>As you know, tuples are immutable, so they are the optimal container to keep and pass data unchanged. Another feature of tuples is that they can store data of any type. It's the reason why tuples are a usual format to pass mixed values, for example when we return several values from a function.</p><p> Consider a tuple with several facts about you: your name, your age, and what you did last summer:</p><pre><code class="language-python"># we use an imaginary person for an example
+my_biography = ("Teddy", 22, "swimming and sunbathing")</code></pre><p> It can be very useful to save each part in three different variables, so we can use the fact that tuples can be <strong>unpacked</strong>. Generally, the number of variables must match the length of a tuple:</p><pre><code class="language-python">name, age, what_i_did_last_summer = my_biography
+print(name)                 # Teddy
+
+name, other = my_biography  # ValueError: too many values to unpack (expected 2)</code></pre><p>Sometimes we need only a concrete variable, and keep the other in some <code class="language-python">other</code> container. Use the unpacking operator <code class="language-python">*</code> in this case, it will create a list for any variables of remaining elements:</p><pre><code class="language-python">name, *other = my_biography
+print(name)   # Teddy
+print(other)  # [22, "swimming and sunbathing"]
+
+*other, what_i_did_last_summer = my_biography
+print(other)                   # ["Teddy", 22]
+print(what_i_did_last_summer)  # "swimming and sunbathing"
+</code></pre><p>We can retrieve values from tuples two ways: getting elements by index or unpacking a tuple to variables.</p><h5 id="swap-values">Swap values</h5><p>An interesting characteristic of Python is connected to this fact. In programming, a common task is to swap the values of two variables. In most programming languages, you will need to use an additional temporary variable to store one of the values:</p><pre><code class="language-python">a = "letter A"
+b = "letter B"
+temp = a
+a = b
+b = temp
+print(a, b)  # letter B letter A</code></pre><p>However, Python allows us to do the swap in only one line:</p><pre><code class="language-python">a = "letter A"
+b = "letter B"
+a, b = b, a  # check it out!
+print(a, b)  # letter B letter A</code></pre><p>The thing is, Python evaluates assignments starting from the right-hand side. Firstly, a tuple of two elements, <code class="language-python">b</code> and <code class="language-python">a</code>, is created in the memory. Then, the already created tuple is assigned to the left-hand side. As the left-hand side is composed of two identifiers, the tuple is unpacked, so that the identifier <code class="language-python">a</code> on the left is assigned to the first element of the tuple, and the identifier <code class="language-python">b</code> — to the second element.</p><h5 id="summary">Summary</h5><p>In this topic, you have learned the features of tuples that are the same as those of lists: addition, multiplication, the methods <code class="language-python">index()</code> and <code class="language-python">count()</code>, the ability to be nested, iterability, and membership testing. You have also learned what sets tuples apart: immutability that allows them to be used as dictionary keys. What's more, you now know how to unpack tuples and swap values of two variables in only one line of code. Now, you are ready to use this knowledge in practice!</p>
+</div>
